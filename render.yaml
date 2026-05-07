@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: estapar-parking
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SERVER_PORT
+        value: 3003
+      - key: SPRING_DATASOURCE_URL
+        sync: false  # set in Render dashboard: jdbc:mysql://<host>/<db>?useSSL=true&serverTimezone=UTC
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      - key: GARAGE_SIMULATOR_BASE_URL
+        value: http://garage-sim:3000
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0

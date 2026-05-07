@@ -1,0 +1,65 @@
+server:
+  port: 3003
+
+spring:
+  application:
+    name: estapar-parking
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/parking?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: parking
+    password: parking
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+    open-in-view: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  threads:
+    virtual:
+      enabled: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+garage:
+  simulator:
+    base-url: ${GARAGE_SIMULATOR_BASE_URL:http://localhost:3000}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+
+logging:
+  pattern:
+    console: ""

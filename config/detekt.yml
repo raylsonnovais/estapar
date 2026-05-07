@@ -1,0 +1,51 @@
+build:
+  maxIssues: 0
+
+config:
+  validation: true
+  warningsAsErrors: false
+
+complexity:
+  LongMethod:
+    threshold: 60
+  LongParameterList:
+    functionThreshold: 8
+    constructorThreshold: 12  # JPA entities with many columns legitimately exceed 8
+  TooManyFunctions:
+    thresholdInFiles: 20
+    thresholdInClasses: 15
+
+naming:
+  FunctionNaming:
+    functionPattern: '([a-z][a-zA-Z0-9]*)|(`.*`)'
+  TopLevelPropertyNaming:
+    constantPattern: '[A-Z][_A-Z0-9]*'
+
+style:
+  MaxLineLength:
+    maxLineLength: 140
+    excludeCommentStatements: true
+  MagicNumber:
+    ignoreAnnotated:
+      - 'Test'
+      - 'ParameterizedTest'
+    ignoreNumbers:
+      - '-1'
+      - '0'
+      - '1'
+      - '2'
+      - '100'
+  ReturnCount:
+    max: 4
+  ThrowsCount:
+    max: 4
+  WildcardImport:
+    active: true
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+
+performance:
+  SpreadOperator:
+    active: false
