@@ -17,9 +17,14 @@ Thumbs.db
 *.log
 logs/
 
-# Env
+# Env / secrets
 .env
+*.env
 *.env.local
+application-local.yml
+application-secret.yml
+# application-prod.yml está rastreado intencionalmente (sem credenciais reais)
+# Para versões locais com credenciais, use application-local.yml (ignorado acima)
 
 # Spring Boot
 spring-shell.log
