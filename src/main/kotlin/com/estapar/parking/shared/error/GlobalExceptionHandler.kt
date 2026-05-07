@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.orm.ObjectOptimisticLockingFailureException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.servlet.resource.NoResourceFoundException
 import java.time.Instant
 
 data class ErrorResponse(
@@ -37,6 +38,9 @@ class GlobalExceptionHandler {
                 ),
             )
     }
+
+    @ExceptionHandler(NoResourceFoundException::class)
+    fun handleNoResource(): ResponseEntity<Unit> = ResponseEntity.notFound().build()
 
     @ExceptionHandler(Exception::class)
     fun handleUnexpected(e: Exception): ResponseEntity<ErrorResponse> {
