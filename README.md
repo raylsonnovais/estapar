@@ -2,6 +2,8 @@
 
 Backend de gerenciamento de estacionamento — desafio técnico Estapar.
 
+🚀 Live demo: https://estapar-backend.onrender.com/swagger-ui.html
+
 ## Stack
 
 | Camada | Tecnologia |
@@ -276,32 +278,31 @@ senão → ⌈minutos / 60⌉ × basePrice × multiplier
 
 ## CI/CD
 
-O pipeline no GitHub Actions (`/.github/workflows/ci.yml`) tem três jobs:
+O pipeline no GitHub Actions (`/.github/workflows/ci.yml`) tem dois jobs:
 
 ```
 push to main
     │
-    ├── build  → MySQL service + ./gradlew build (ktlint · detekt · ArchUnit · 48 testes)
-    │
-    ├── docker → bootJar → docker build & push (Docker Hub)
+    ├── build  → MySQL service + ./gradlew ktlintCheck detekt test (ArchUnit · testes)
     │
     └── deploy → curl RENDER_DEPLOY_HOOK
 ```
 
-### Secrets necessários no repositório GitHub
+O Render constrói a imagem diretamente do repositório GitHub — sem Docker Hub intermediário.
+
+### Secret necessário no repositório GitHub
 
 | Secret | Descrição |
 |---|---|
-| `DOCKERHUB_USERNAME` | Usuário Docker Hub |
-| `DOCKERHUB_TOKEN` | Access token Docker Hub |
 | `RENDER_DEPLOY_HOOK` | Deploy hook URL do serviço no Render |
 
 ### Deploy no Render
 
-1. Criar serviço **Web Service** → Docker → apontar para o repositório
-2. Configurar as variáveis de ambiente (ver `render.yaml`):
-   - `SPRING_DATASOURCE_URL` → JDBC URL do MySQL externo (ex.: PlanetScale)
+1. Criar serviço **Web Service** → apontar para o repositório GitHub
+2. Configurar as variáveis de ambiente:
+   - `SPRING_DATASOURCE_URL` → JDBC URL do MySQL externo
    - `SPRING_DATASOURCE_USERNAME` e `SPRING_DATASOURCE_PASSWORD`
+   - `SPRING_PROFILES_ACTIVE=prod`
 3. O deploy é acionado automaticamente pelo webhook após cada push para `main`
 
 ---
